@@ -1,3 +1,4 @@
+<img width="2816" height="1536" alt="Gemini_Generated_Image_r5abhjr5abhjr5ab" src="https://github.com/user-attachments/assets/71f5ff35-0548-483e-97ca-2da42ffb1668" />
 # Project [ Heimdall ]: 외부 AI API 통제 프레임워크 기반의 격리형 3-Tier 클라우드 인프라 구축
 
 > **최종 빌드 일시:** 2026-07-28 13:16:52 KST (2026년 7월 최신 DevSecOps & Agentic RAG 규격)  
@@ -6,43 +7,6 @@
 ---
 ## 전체 엔드투엔드 아키텍처 다이어그램 (System Architecture)
 
-```mermaid
-graph TD
-    subgraph External["Client & External"]
-        User([Client / Developer])
-        GH[GitHub Actions CI/CD Pipeline]
-        Gemini[Google AI Studio / Gemini 3.5 Flash API]
-    end
-
-    subgraph AWS["AWS Cloud (ap-northeast-2)"]
-        subgraph Public["Public Subnet"]
-            WAF[Nginx Reverse Proxy & Fail2ban]
-            Prom[Prometheus & Grafana 관제]
-        end
-
-        subgraph PrivateApp["Private Application Subnet (EC2 t3.micro)"]
-            App[Python FastAPI WAS Container]
-            Redis[Redis Rate Limiter Container]
-            Chroma[ChromaDB Local Vector Store]
-        end
-
-        subgraph PrivateDB["Private Database Subnet (RDS)"]
-            RDS[(AWS RDS MySQL - Encrypted At-Rest)]
-        end
-
-        SSM[AWS SSM Parameter Store]
-        OIDC[AWS IAM OIDC Provider - Keyless]
-    end
-
-    User -->|HTTPS / Port 443| WAF
-    WAF -->|Internal Rate Limit| App
-    App <-->|AES-256 Auth & Data| RDS
-    App <-->|Vector Context| Chroma
-    App <-->|Token Count & Throttling| Redis
-    App -->|Guardrail Filtered Prompt| Gemini
-    GH -->|Keyless OIDC AssumeRole| OIDC
-    GH -->|Pull-based CD via SSM| App
-    Prom -->|Metrics / Blackbox Exporter| WAF
-```
+<img width="2816" height="1536" alt="Gemini_Generated_Image_r5abhjr5abhjr5ab" src="https://github.com/user-attachments/assets/978573e4-4ff1-4837-8f8c-3a87844bfe1f" />
 
 ---
