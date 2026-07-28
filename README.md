@@ -4,7 +4,7 @@
 > **프로젝트 개요:** 본 프로젝트는 외부 AI API(Google Gemini 3.5 Flash) 이용 시 발생할 수 있는 데이터 유출 및 프롬프트 인젝션을 통제하고, AWS 프리티어 기반의 격리된 3-Tier 인프라 환경에서 무키(Keyless) DevSecOps 파이프라인과 완벽한 FinOps/관제 시스템을 구축한 프로젝트입니다.
 
 ---
-## 1. 전체 엔드투엔드 아키텍처 다이어그램 (System Architecture)
+## 전체 엔드투엔드 아키텍처 다이어그램 (System Architecture)
 
 ```mermaid
 graph TD
