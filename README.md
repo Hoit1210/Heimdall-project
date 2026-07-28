@@ -1,4 +1,4 @@
-<img width="2816" height="1536" alt="Gemini_Generated_Image_r5abhjr5abhjr5ab" src="https://github.com/user-attachments/assets/71f5ff35-0548-483e-97ca-2da42ffb1668" />
+
 # Project [ Heimdall ]: 외부 AI API 통제 프레임워크 기반의 격리형 3-Tier 클라우드 인프라 구축
 
 > **최종 빌드 일시:** 2026-07-28 13:16:52 KST (2026년 7월 최신 DevSecOps & Agentic RAG 규격)  
