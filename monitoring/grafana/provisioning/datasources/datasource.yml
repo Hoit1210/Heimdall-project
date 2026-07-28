@@ -1,0 +1,10 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    uid: prometheus_ds_uid  # 알람 규칙에서 참조할 절대 고정 UID
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false

@@ -1,0 +1,42 @@
+name: [Step 24] Heimdall DevSecOps - Trivy Container & FS Scan
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  trivy-security:
+    name: Trivy Filesystem & Container Image Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. 저장소 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 2. [FS Scan] Trivy 파일시스템 및 IaC 보안 스캔
+        uses: aquasecurity/trivy-action@0.18.0
+        with:
+          scan-type: 'fs'
+          scan-ref: './backend'
+          scanners: 'vuln,config'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+
+      - name: 3. 컨테이너 이미지 빌드 (Docker Build)
+        run: |
+          docker build -t heimdall-api:${{ github.sha }} ./backend/
+
+      - name: 4. [Image Scan] Trivy 컨테이너 이미지 취약점 스캔
+        uses: aquasecurity/trivy-action@0.18.0
+        with:
+          image-ref: 'heimdall-api:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'HIGH,CRITICAL'

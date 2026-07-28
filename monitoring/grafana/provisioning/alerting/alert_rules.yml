@@ -1,0 +1,109 @@
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: Heimdall_Stress_Alert_Group
+    folder: Heimdall_DevOps_Alerts
+    interval: 10s
+    rules:
+      # [Rule 1] EC2 CPU 과부하 알람 (30% 초과 감지)
+      - uid: cpu_stress_alert
+        title: "[Heimdall] EC2 CPU High Usage Alert (> 30%)"
+        condition: B
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus_ds_uid
+            model:
+              editorMode: code
+              expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) * 100)
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: '__expr__'
+            model:
+              conditions:
+                - evaluator:
+                    params: [30]
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: B
+              type: threshold
+        noDataState: OK
+        execErrState: Error
+        for: 10s
+        annotations:
+          summary: " [경고] EC2 CPU 사용률이 부하 테스트로 인해 30%를 초과했습니다!"
+        labels:
+          severity: critical
+
+      # [Rule 2] HTTPS 웹 서비스 응답 장애 알람 (Blackbox Probe 실패 감지)
+      - uid: https_down_alert
+        title: "[Heimdall] HTTPS Web Service Down Alert"
+        condition: B
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: prometheus_ds_uid
+            model:
+              editorMode: code
+              expr: probe_success{job="heimdall-blackbox-http"} == 0
+              instant: true
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: A
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: '__expr__'
+            model:
+              conditions:
+                - evaluator:
+                    params: [0]
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: [A]
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: B
+              type: threshold
+        noDataState: OK
+        execErrState: Error
+        for: 10s
+        annotations:
+          summary: " [긴급] Nginx HTTPS 웹 서비스가 응답하지 않습니다!"
+        labels:
+          severity: fatal

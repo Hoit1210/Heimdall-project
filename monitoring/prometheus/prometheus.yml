@@ -1,0 +1,36 @@
+global:
+  scrape_interval: 15s     # 15초 주기로 메트릭 수집
+  evaluation_interval: 15s # 알람 규칙 평가 주기
+
+scrape_configs:
+  # [Target 1] Prometheus 자체 모니터링
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # [Target 2] EC2 하드웨어 자원 모니터링
+  - job_name: 'ec2-node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # [Target 3] FastAPI WAS 메트릭 수집
+  - job_name: 'heimdall-fastapi'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:8000', '172.17.0.1:8000', '172.18.0.1:8000']
+
+  # [Target 4] Blackbox Exporter를 통한 HTTPS 웹 서비스 및 SSL 인증서 감시
+  - job_name: 'heimdall-blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]  # blackbox.yml에 정의한 http_2xx 모듈 호출
+    static_configs:
+      - targets:
+        - https://host.docker.internal  # 프로빙 대상: Nginx HTTPS 엔드포인트
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115  # Blackbox Exporter 컨테이너 주소로 라우팅

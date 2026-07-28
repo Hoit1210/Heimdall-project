@@ -1,0 +1,27 @@
+{
+    "BudgetName": "Heimdall-Monthly-FinOps-Budget",
+    "BudgetLimit": {
+        "Amount": "10.00",
+        "Unit": "USD"
+    },
+    "CostFilters": {},
+    "CostTypes": {
+        "IncludeTax": true,
+        "IncludeSubscription": true,
+        "UseBlended": false,
+        "IncludeRefund": false,
+        "IncludeCredit": false,
+        "IncludeUpfront": true,
+        "IncludeRecurring": true,
+        "IncludeOtherSubscription": true,
+        "IncludeSupport": true,
+        "IncludeDiscount": true,
+        "UseAmortized": false
+    },
+    "TimeUnit": "MONTHLY",
+    "TimePeriod": {
+        "Start": "2026-07-01T00:00:00Z",
+        "End": "2087-06-15T00:00:00Z"
+    },
+    "BudgetType": "COST"
+}

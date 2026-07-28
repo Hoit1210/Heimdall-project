@@ -1,0 +1,29 @@
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: Heimdall_Discord_Slack_Alert
+    receivers:
+      # [1] Discord 웹훅 수신 설정 (본인의 Discord 웹훅 URL로 교체 가능)
+      - uid: discord_receiver_id
+        type: discord
+        settings:
+          url: "https://discord.com/login/one-time?token=NTM3MTIxODc4NDIzMTA5NjUz.H01sDI.tLdaV8kN9EN7DOBSszIBSXtSuluDd4tUPTtarI"
+          message: |-
+            **[Heimdall DevOps Alert]**
+            **상태:** {{ .Status | toUpper }}
+            **알람명:** {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}
+            **시간:** {{ .GroupLabels.alertname }} - 실시간 모니터링 확인 요망!
+
+      # [2] Slack 웹훅 수신 설정 (필요 시 주석 해제 후 사용)
+      # - uid: slack_receiver_id
+      #   type: slack
+      #   settings:
+      #     url: "https://hooks.slack.com/services/T000/B000/XXXX"
+      #     title: "Heimdall 인프라 장애 발생"
+
+policies:
+  - orgId: 1
+    receiver: Heimdall_Discord_Slack_Alert
+    group_by: ['alertname', 'folder']
+    repeat_interval: 1h

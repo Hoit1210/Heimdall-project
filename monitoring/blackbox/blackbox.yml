@@ -1,0 +1,12 @@
+modules:
+  # [Module 1] HTTPS 웹 서비스 가동률 및 SSL 인증서 프로빙 모듈
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: []  # 기본값 2xx 응답 코드 시 성공(probe_success=1)으로 판단
+      method: GET
+      preferred_ip_protocol: "ip4"
+      tls_config:
+        insecure_skip_verify: true  # 로컬 사설 SSL 인증서 검증 예외 허용
