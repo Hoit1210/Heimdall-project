@@ -7,6 +7,7 @@
 ---
 ## 전체 엔드투엔드 아키텍처 다이어그램 (System Architecture)
 
-<img width="2816" height="1536" alt="Gemini_Generated_Image_r5abhjr5abhjr5ab" src="https://github.com/user-attachments/assets/978573e4-4ff1-4837-8f8c-3a87844bfe1f" />
+<img width="2816" height="1536" alt="Heimdall-v1" src="https://github.com/user-attachments/assets/5218d1e0-8d36-4eef-bf9a-d8f6015396b2" />
+ />
 
 ---
