@@ -191,3 +191,5 @@ Heimdall은 Rule/Pattern 기반 Guardrail과 WAF, Metric 수집 및 일부 자�
 ### 구현 구성도 읽는 법
 
 README 상단의 Heimdall 아키텍처 이미지는 여러 방어·제어 계층을 표현합니다. SSM 관리 경로, Nginx 진입점, FastAPI 기반 AI 처리, Private RDS, Observability 경로가 서로 다른 목적을 가진다는 점에 주목하면 됩니다. Terraform/CI 실험과 DR/FinOps 항목은 메인 AI API 통제 흐름과 구분해 기록했습니다. 일부 부가 실습을 일괄적으로 상시 운영 중인 프로덕션 환경으로 주장하지 않습니다.
+
+[구축 및 검증 화면 목록](docs/evidence-gallery.md)
