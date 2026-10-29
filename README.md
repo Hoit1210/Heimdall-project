@@ -1,8 +1,8 @@
 # Project Heimdall
 
-> **외부 AI API 통제 프레임워크 기반의 격리형 3-Tier 클라우드 인프라 구축**
+> 외부 AI API 통제 프레임워크 기반의 격리형 3-Tier 클라우드 인프라 구축
 
-Project 01에서 구축한 Cloud Infrastructure를 기반으로, 외부 AI API 사용으로 새롭게 발생한 **Secret · Data · Request/Response · Traffic · Failure Boundary**를 통제하도록 확장한 Security & Reliability 프로젝트입니다.
+Project 01에서 구축한 Cloud Infrastructure를 기반으로, 외부 AI API 사용으로 새롭게 발생한 Secret · Data · Request/Response · Traffic · Failure Boundary를 통제하도록 확장한 Security & Reliability 프로젝트입니다.
 
 ## Project Context
 
@@ -21,7 +21,7 @@ Heimdall에서는 외부 AI API 연동 이후 생긴 새로운 Trust Boundary를
 - Retry + Circuit Breaker 기반 External API Failure Isolation
 - Prometheus / Grafana / Blackbox Exporter 기반 Observability
 
-> **Portfolio Story**: Project 01 `BUILD` → Project 02 `SECURE` → Project 03 `OBSERVE & RESPOND` → Project 04 `AUTOMATE`
+> Portfolio Story: Project 01 `BUILD` → Project 02 `SECURE` → Project 03 `OBSERVE & RESPOND` → Project 04 `AUTOMATE`
 
 ---
 
@@ -61,6 +61,11 @@ External Dependency Observability
 | External service visibility | Blackbox Exporter | Client 관점에서 HTTPS 상태 관측 |
 
 ---
+
+
+## 구성도
+
+[클라우드 구성도와 구성 요소 설명](docs/cloud-architecture.md)
 
 ## Repository Structure
 
@@ -111,7 +116,7 @@ Monitoring은 Infrastructure Metric뿐 아니라 Application과 External HTTPS E
 
 ## Additional Implementation Evidence
 
-Project 후반부에는 아래 항목도 별도로 검증했습니다. Repository에는 실제 수행 증거로 보존하되, Project 02의 메인 스토리는 **External AI API & Data Flow Control**에 둡니다.
+Project 후반부에는 아래 항목도 별도로 검증했습니다. Repository에는 실제 수행 증거로 보존하되, Project 02의 메인 스토리는 External AI API & Data Flow Control에 둡니다.
 
 - GitHub Actions OIDC 기반 AWS 인증
 - SAST / Dependency / Container Image Security Check
@@ -152,10 +157,10 @@ Project 후반부에는 아래 항목도 별도로 검증했습니다. Repositor
 
 ## Portfolio Documentation
 
-**Notion — Project 02 Heimdall**  
+Notion — Project 02 Heimdall  
 https://app.notion.com/p/3a459c94122580b1aab2cfd683f61568?pvs=204
 
-Notion은 **Problem → Architecture Evolution → Decision → Validation → Troubleshooting**을 설명하고, GitHub는 실제 구현 코드와 설정을 보존하는 역할로 분리했습니다.
+Notion은 Problem → Architecture Evolution → Decision → Validation → Troubleshooting을 설명하고, GitHub는 실제 구현 코드와 설정을 보존하는 역할로 분리했습니다.
 
 ---
 
@@ -163,26 +168,26 @@ Notion은 **Problem → Architecture Evolution → Decision → Validation → T
 
 Heimdall은 Rule/Pattern 기반 Guardrail과 WAF, Metric 수집 및 일부 자동 차단까지 구현했지만, 여러 Metric/Log/Security Event를 하나의 Incident Context로 해석하는 단계는 운영자 판단에 의존합니다.
 
-> **Next Engineering Question**  
+> Next Engineering Question  
 > Infrastructure Metric, Application Log, Security Event를 하나의 운영 Context로 분석해 장애와 공격의 의미를 판단하고 대응까지 연결할 수 있을까?
 
-→ **Project 03: Bifrost — Context-Aware SRE & Security Monitoring Automation**
+→ Project 03: Bifrost — Context-Aware SRE & Security Monitoring Automation
 
 
 ---
 
-## 클라우드 엔지니어 관점의 핵심 구현과 검증 자료
+## 클라우드 인프라 구성 및 검증
 
-이 프로젝트는 AI 모델 자체를 개발하는 프로젝트보다, **외부 AI API를 사용하는 클라우드 워크로드의 네트워크·데이터·보안·배포 경계를 직접 구축한 프로젝트**에 가깝습니다.
+이 프로젝트는 AI 모델 자체를 개발하는 프로젝트보다, 외부 AI API를 사용하는 클라우드 워크로드의 네트워크·데이터·보안·배포 경계를 직접 구축한 프로젝트에 가깝습니다.
 
-- **클라우드/접근 경계:** AWS SSM Session Manager, Private RDS, Security Group, IAM/OIDC 기반 인증 구성 및 검증 기록
-- **Secrets/데이터 보호:** Parameter Store, RDS 저장 암호화, 애플리케이션 수준 암호화·복호화
-- **애플리케이션 통신:** Nginx HTTPS, AI API 요청 전 Guardrail, 응답 Masking, Redis Rate Limit
-- **가용성과 관측:** Retry/Circuit Breaker, Blackbox Exporter, Prometheus/Grafana
-- **보안 검증:** Fail2ban → DOCKER-USER 차단 연계, WAF 패턴 차단 및 테스트 기록
+- 클라우드/접근 경계: AWS SSM Session Manager, Private RDS, Security Group, IAM/OIDC 기반 인증 구성 및 검증 기록
+- Secrets/데이터 보호: Parameter Store, RDS 저장 암호화, 애플리케이션 수준 암호화·복호화
+- 애플리케이션 통신: Nginx HTTPS, AI API 요청 전 Guardrail, 응답 Masking, Redis Rate Limit
+- 가용성과 관측: Retry/Circuit Breaker, Blackbox Exporter, Prometheus/Grafana
+- 보안 검증: Fail2ban → DOCKER-USER 차단 연계, WAF 패턴 차단 및 테스트 기록
 
-위 항목의 작업 과정·스크린샷·검증 근거는 **[개인 프로젝트 관리 — Project 02 Heimdall](https://app.notion.com/p/3b559c941225804ebe80cdbe1b098115)** 및 [초기 프로젝트 구성 기록](https://app.notion.com/p/3a459c94122580b1aab2cfd683f61568)에서 확인할 수 있습니다.
+위 항목의 작업 과정·스크린샷·검증 근거는 [개인 프로젝트 관리 — Project 02 Heimdall](https://app.notion.com/p/3b559c941225804ebe80cdbe1b098115) 및 [초기 프로젝트 구성 기록](https://app.notion.com/p/3a459c94122580b1aab2cfd683f61568)에서 확인할 수 있습니다.
 
 ### 구현 구성도 읽는 법
 
-README 상단의 Heimdall 아키텍처 이미지는 여러 방어·제어 계층을 표현합니다. **SSM 관리 경로, Nginx 진입점, FastAPI 기반 AI 처리, Private RDS, Observability 경로**가 서로 다른 목적을 가진다는 점에 주목하면 됩니다. Terraform/CI 실험과 DR/FinOps 항목은 메인 AI API 통제 흐름과 구분해 기록했습니다. 일부 부가 실습을 일괄적으로 상시 운영 중인 프로덕션 환경으로 주장하지 않습니다.
+README 상단의 Heimdall 아키텍처 이미지는 여러 방어·제어 계층을 표현합니다. SSM 관리 경로, Nginx 진입점, FastAPI 기반 AI 처리, Private RDS, Observability 경로가 서로 다른 목적을 가진다는 점에 주목하면 됩니다. Terraform/CI 실험과 DR/FinOps 항목은 메인 AI API 통제 흐름과 구분해 기록했습니다. 일부 부가 실습을 일괄적으로 상시 운영 중인 프로덕션 환경으로 주장하지 않습니다.
