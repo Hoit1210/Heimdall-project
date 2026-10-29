@@ -45,6 +45,36 @@ External Dependency Observability
 
 ---
 
+## 대표 검증 화면
+
+클라우드 인프라 구축과 운영 점검 과정에서 남긴 실제 실행 화면입니다. 공개용 캡처는 민감정보를 가렸으며, 설명은 화면에서 확인할 수 있는 범위로 작성했습니다.
+
+[전체 검증 화면 5개와 확인 범위](docs/evidence-gallery.md)
+
+### Parameter Store에 보안 설정 저장
+
+Parameter Store의 DB·Gemini 설정 항목이 SecureString으로 등록된 목록입니다. 실제 비밀값은 포함하지 않았습니다.
+
+![Parameter Store에 보안 설정 저장](docs/images/01-parameter-store.png)
+
+### RDS 저장 암호화 설정
+
+RDS 조회 결과에서 StorageEncrypted가 True인 것을 확인했습니다. KMS ARN은 가렸습니다.
+
+![RDS 저장 암호화 설정](docs/images/02-rds-encryption.png)
+
+### Rate Limit 동작 확인
+
+IP 기준 네 번째 호출과 API 토큰 기준 세 번째 호출에서 Rate Limit Exceeded 응답을 확인했습니다. 토큰 문자열은 가렸습니다.
+
+![Rate Limit 동작 확인](docs/images/04-rate-limit.png)
+
+### Blackbox Exporter 상태 확인
+
+Blackbox Exporter 출력에서 probe_success 1과 probe_http_status_code 200을 확인했습니다.
+
+![Blackbox Exporter 상태 확인](docs/images/05-blackbox.png)
+
 ## Core Engineering Decisions
 
 | Problem | Decision | Reason |
@@ -193,3 +223,4 @@ Heimdall은 Rule/Pattern 기반 Guardrail과 WAF, Metric 수집 및 일부 자�
 README 상단의 Heimdall 아키텍처 이미지는 여러 방어·제어 계층을 표현합니다. SSM 관리 경로, Nginx 진입점, FastAPI 기반 AI 처리, Private RDS, Observability 경로가 서로 다른 목적을 가진다는 점에 주목하면 됩니다. Terraform/CI 실험과 DR/FinOps 항목은 메인 AI API 통제 흐름과 구분해 기록했습니다. 일부 부가 실습을 일괄적으로 상시 운영 중인 프로덕션 환경으로 주장하지 않습니다.
 
 [구축 및 검증 화면 목록](docs/evidence-gallery.md)
+
