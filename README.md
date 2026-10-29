@@ -167,3 +167,22 @@ Heimdall은 Rule/Pattern 기반 Guardrail과 WAF, Metric 수집 및 일부 자�
 > Infrastructure Metric, Application Log, Security Event를 하나의 운영 Context로 분석해 장애와 공격의 의미를 판단하고 대응까지 연결할 수 있을까?
 
 → **Project 03: Bifrost — Context-Aware SRE & Security Monitoring Automation**
+
+
+---
+
+## 클라우드 엔지니어 관점의 핵심 구현과 검증 자료
+
+이 프로젝트는 AI 모델 자체를 개발하는 프로젝트보다, **외부 AI API를 사용하는 클라우드 워크로드의 네트워크·데이터·보안·배포 경계를 직접 구축한 프로젝트**에 가깝습니다.
+
+- **클라우드/접근 경계:** AWS SSM Session Manager, Private RDS, Security Group, IAM/OIDC 기반 인증 구성 및 검증 기록
+- **Secrets/데이터 보호:** Parameter Store, RDS 저장 암호화, 애플리케이션 수준 암호화·복호화
+- **애플리케이션 통신:** Nginx HTTPS, AI API 요청 전 Guardrail, 응답 Masking, Redis Rate Limit
+- **가용성과 관측:** Retry/Circuit Breaker, Blackbox Exporter, Prometheus/Grafana
+- **보안 검증:** Fail2ban → DOCKER-USER 차단 연계, WAF 패턴 차단 및 테스트 기록
+
+위 항목의 작업 과정·스크린샷·검증 근거는 **[개인 프로젝트 관리 — Project 02 Heimdall](https://app.notion.com/p/3b559c941225804ebe80cdbe1b098115)** 및 [초기 프로젝트 구성 기록](https://app.notion.com/p/3a459c94122580b1aab2cfd683f61568)에서 확인할 수 있습니다.
+
+### 구현 구성도 읽는 법
+
+README 상단의 Heimdall 아키텍처 이미지는 여러 방어·제어 계층을 표현합니다. **SSM 관리 경로, Nginx 진입점, FastAPI 기반 AI 처리, Private RDS, Observability 경로**가 서로 다른 목적을 가진다는 점에 주목하면 됩니다. Terraform/CI 실험과 DR/FinOps 항목은 메인 AI API 통제 흐름과 구분해 기록했습니다. 일부 부가 실습을 일괄적으로 상시 운영 중인 프로덕션 환경으로 주장하지 않습니다.
